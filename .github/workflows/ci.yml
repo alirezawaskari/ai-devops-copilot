@@ -1,0 +1,67 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v3
+        with:
+          version: "latest"
+      - name: Install dependencies
+        run: uv sync --extra dev
+      - name: Ruff check
+        run: uv run ruff check .
+      - name: Ruff format check
+        run: uv run ruff format --check .
+
+  typecheck:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v3
+        with:
+          version: "latest"
+      - name: Install dependencies
+        run: uv sync --extra dev
+      - name: Mypy
+        run: uv run mypy app
+
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v3
+        with:
+          version: "latest"
+      - name: Install dependencies
+        run: uv sync --extra dev
+      - name: Run tests with coverage
+        run: uv run pytest --cov=app --cov-report=term-missing --cov-report=xml
+      - name: Upload coverage artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: coverage.xml
+
+  security:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v3
+        with:
+          version: "latest"
+      - name: Install dependencies
+        run: uv sync --extra dev
+      - name: Bandit (static security analysis)
+        run: uv run bandit -q -r app
+      - name: pip-audit (dependency vulnerability scan, advisory)
+        run: uvx pip-audit || echo "::warning::pip-audit reported findings, review before release"

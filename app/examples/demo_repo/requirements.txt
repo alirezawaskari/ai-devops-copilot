@@ -1,0 +1,4 @@
+flask>=1.0
+requests
+pyyaml==5.0
+urllib3
