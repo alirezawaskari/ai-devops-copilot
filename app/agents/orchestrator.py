@@ -45,11 +45,7 @@ class DevOpsAgent:
         from app.tools.repo_structure_tool import RepoStructureTool
 
         structure_tool = self._registry.get("inspect_repo_structure")
-        summary = (
-            structure_tool.summarize(snapshot)
-            if isinstance(structure_tool, RepoStructureTool)
-            else {}
-        )
+        summary = structure_tool.summarize(snapshot) if isinstance(structure_tool, RepoStructureTool) else {}
         specs = [
             {"name": s.name, "description": s.description}
             for s in self._registry.tool_specs()
