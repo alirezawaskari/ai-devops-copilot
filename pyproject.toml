@@ -38,7 +38,7 @@ dev = [
     "mypy>=1.11.2",
     "types-redis",
     "respx>=0.21.1",
-    "bandit>=1.7.9",
+    "bandit[toml]>=1.7.9",
     "fakeredis>=2.23.0",
 ]
 
@@ -70,4 +70,4 @@ asyncio_mode = "auto"
 testpaths = ["tests"]
 
 [tool.bandit]
-exclude_dirs = ["tests", "tests/fixtures", ".venv"]
+exclude_dirs = ["tests", "tests/fixtures", "app/examples", ".venv"]

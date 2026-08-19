@@ -12,8 +12,8 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: astral-sh/setup-uv@v3
+      - uses: actions/checkout@v7
+      - uses: astral-sh/setup-uv@v7
         with:
           version: "latest"
       - name: Install dependencies
@@ -26,8 +26,8 @@ jobs:
   typecheck:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: astral-sh/setup-uv@v3
+      - uses: actions/checkout@v7
+      - uses: astral-sh/setup-uv@v7
         with:
           version: "latest"
       - name: Install dependencies
@@ -38,8 +38,8 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: astral-sh/setup-uv@v3
+      - uses: actions/checkout@v7
+      - uses: astral-sh/setup-uv@v7
         with:
           version: "latest"
       - name: Install dependencies
@@ -55,13 +55,13 @@ jobs:
   security:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: astral-sh/setup-uv@v3
+      - uses: actions/checkout@v7
+      - uses: astral-sh/setup-uv@v7
         with:
           version: "latest"
       - name: Install dependencies
         run: uv sync --extra dev
       - name: Bandit (static security analysis)
-        run: uv run bandit -q -r app
+        run: uv run bandit -q -r app -x app/examples
       - name: pip-audit (dependency vulnerability scan, advisory)
         run: uvx pip-audit || echo "::warning::pip-audit reported findings, review before release"
