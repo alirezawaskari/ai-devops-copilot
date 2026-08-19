@@ -15,3 +15,9 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
+    # The project pins Python 3.12 (see pyproject.toml `requires-python`).
+    # Don't let Dependabot propose base-image bumps to a different Python
+    # minor/major version; patch-level bumps within 3.12 are still allowed.
+    ignore:
+      - dependency-name: "python"
+        update-types: ["version-update:semver-major", "version-update:semver-minor"]
