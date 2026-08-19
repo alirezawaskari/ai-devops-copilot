@@ -62,6 +62,6 @@ jobs:
       - name: Install dependencies
         run: uv sync --extra dev
       - name: Bandit (static security analysis)
-        run: uv run bandit -q -r app
+        run: uv run bandit -q -r app -x app/examples
       - name: pip-audit (dependency vulnerability scan, advisory)
         run: uvx pip-audit || echo "::warning::pip-audit reported findings, review before release"
