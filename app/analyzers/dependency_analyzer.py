@@ -93,7 +93,11 @@ def analyze_requirements_txt(file: RepoFile) -> list[Finding]:
                     ),
                     file_path=file.path,
                     line_number=lineno,
-                    evidence={"package": name, "declared_version": version},
+                    evidence={
+                        "package": name,
+                        "declared_version": version,
+                        "source": "illustrative-rule-set",
+                    },
                     suggested_fix_summary=(
                         f"Upgrade {name} to the latest patched release and re-run a vulnerability scan."
                     ),
@@ -144,13 +148,14 @@ def analyze_package_json(file: RepoFile) -> list[Finding]:
                             "version ranges. Verify against the current advisory database."
                         ),
                         file_path=file.path,
-                        evidence={"package": name, "declared_version": version},
+                        evidence={
+                            "package": name,
+                            "declared_version": version,
+                            "source": "illustrative-rule-set",
+                        },
                         suggested_fix_summary=f"Upgrade {name} and re-run a vulnerability scan.",
                     )
                 )
-
-    if not any(p.endswith(("package-lock.json", "yarn.lock", "pnpm-lock.yaml")) for p in [file.path]):
-        pass  # lockfile presence is checked at the aggregate level, see dependency tool
 
     return findings
 
